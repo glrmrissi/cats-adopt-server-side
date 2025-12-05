@@ -27,8 +27,6 @@ export class CreateLoginDto {
             description: 'Senha do usuário',
             example: 'senhaSegura!@#',
         })
-    @Exclude({ toPlainOnly: true })
-    @Column()
     @IsNotEmpty()
     @IsString()
     @IsStrongPassword(
