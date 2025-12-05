@@ -1,26 +1,26 @@
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, DeleteDateColumn } from 'typeorm';
+import { Exclude } from 'class-transformer'; 
 
-export abstract class LoginEntity {
+@Entity('users')
+export class LoginEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true }) 
   username: string;
 
+  @Exclude({ toPlainOnly: true }) 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ unique: true }) 
   email: string;
 
-  @Column()
-  isDeleted: boolean;
-
-  @Column()
+  @DeleteDateColumn({ type: 'timestamp', nullable: true }) 
+  deletedAt: Date; 
+  
+  @Column({ default: false })
   emailVerified: boolean;
-
-  @Column({ type: 'timestamp', nullable: true })
-  deletedAt: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

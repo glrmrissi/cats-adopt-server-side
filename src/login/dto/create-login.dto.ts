@@ -1,17 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Exclude } from "class-transformer";
-import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsEmail, IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
 
-@Entity('users')
 export class CreateLoginDto {
-    @ApiProperty(
-        {
-            description: 'ID do usuário',
-            example: 1,
-        })
-    @PrimaryGeneratedColumn()
-    id: number;
 
     @ApiProperty(
         {
@@ -49,44 +39,4 @@ export class CreateLoginDto {
     @IsString()
     @IsEmail()
     email: string;
-
-    @ApiProperty(
-        {
-            description: 'Indica se o usuário foi deletado',
-            example: false,
-        })
-    @IsBoolean()
-    isDeleted: boolean;
-
-    @ApiProperty(
-        {
-            description: 'Indica se o email do usuário foi verificado',
-            example: true,
-        })
-    @IsBoolean()
-    emailVerified: boolean;
-
-    @ApiProperty(
-        {
-            description: 'Data de deleção do usuário',
-            example: '2024-01-01T00:00:00Z',
-        })
-    @IsDate()
-    deleted_at: Date;
-
-    @ApiProperty(
-        {
-            description: 'Data de criação do usuário',
-            example: '2024-01-01T00:00:00Z',
-        })
-    @IsDate()
-    created_at: Date;
-
-    @ApiProperty(
-        {
-            description: 'Data de atualização do usuário',
-            example: '2024-01-01T00:00:00Z',
-        })
-    @IsDate()
-    updated_at: Date;
 }
