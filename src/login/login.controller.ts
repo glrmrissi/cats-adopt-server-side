@@ -3,12 +3,14 @@ import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
 import { ApiCreateLoginDocs } from './swagger-docs/swagger.docs';
+import { IsPublic } from 'src/decorators/is-public.decorator';
 
 @Controller('login')
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
+  @IsPublic()
   @ApiCreateLoginDocs()
-  @Post()
+  @Post('create')
   create(@Body() createLoginDto: CreateLoginDto) {
     return this.loginService.create(createLoginDto);
   }
