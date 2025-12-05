@@ -10,22 +10,22 @@ import { LoginModule } from './login/login.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      database: 'cats-adopt',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '123',
-      autoLoadEntities: true,
-      // synchronize: true,
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: String(process.env.DB_PASSWORD),
+      database: process.env.DB_NAME,
+      entities: ['dist/shared/entities/*.{ts,js}'],
+      synchronize: false,
     }),
 
     LoginModule
   ],
   controllers: [AppController],
   providers: [
-    {
-      provide: APP_GUARD, 
-      useClass: AuthGuard,
+    { 
+      provide: APP_GUARD,
+      useClass: AuthGuard, 
     },
     AppService,
     Logger
