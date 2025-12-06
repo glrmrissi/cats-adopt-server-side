@@ -25,8 +25,10 @@ export class LoginService {
     }
   }
 
-  findAll() {
-    return `This action returns all login`;
+  async findAll() {
+    this.enityManager.find(LoginEntity);
+
+    return this.loginRepository.find();
   }
 
   findOne(id: number) {

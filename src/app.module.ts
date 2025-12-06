@@ -5,9 +5,15 @@ import { AppService } from './app.service';
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoginModule } from './login/login.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET, 
+      signOptions: { expiresIn: '6h' }, 
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -18,7 +24,6 @@ import { LoginModule } from './login/login.module';
       entities: ['dist/shared/entities/*.{ts,js}'],
       synchronize: false,
     }),
-
     LoginModule
   ],
   controllers: [AppController],

@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
 import { ApiCreateLoginDocs } from './swagger-docs/swagger.docs';
 import { IsPublic } from 'src/decorators/is-public.decorator';
-
+import { LogInterceptor } from 'src/interceptors/log.interceptor';
 @Controller('login')
+@UseInterceptors(LogInterceptor)
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
   @IsPublic()
@@ -14,7 +15,6 @@ export class LoginController {
   create(@Body() createLoginDto: CreateLoginDto) {
     return this.loginService.create(createLoginDto);
   }
-
   @Get()
   findAll() {
     return this.loginService.findAll();
