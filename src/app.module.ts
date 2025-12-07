@@ -1,19 +1,15 @@
 import { AppController } from './app.controller';
-import { AuthGuard } from './guards/auth/auth.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { AppService } from './app.service';
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LoginModule } from './login/login.module';
-import { JwtModule } from '@nestjs/jwt';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET, 
-      signOptions: { expiresIn: '6h' }, 
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -24,7 +20,8 @@ import { JwtModule } from '@nestjs/jwt';
       entities: ['dist/shared/entities/*.{ts,js}'],
       synchronize: false,
     }),
-    LoginModule
+    AuthModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [
@@ -33,7 +30,8 @@ import { JwtModule } from '@nestjs/jwt';
       useClass: AuthGuard, 
     },
     AppService,
-    Logger
+    Logger,
+    AuthService
   ],
 })
 export class AppModule { }
